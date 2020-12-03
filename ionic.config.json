@@ -1,0 +1,7 @@
+{
+  "name": "GeoNode Mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

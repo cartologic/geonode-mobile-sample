@@ -1,0 +1,28 @@
+ion-slides {
+  height: 100%;
+}
+
+.primary-color-background {
+  background-color: #e8e8e8;
+}
+
+.color-primary {
+  color: var(--ion-color-primary);
+}
+
+.color-white {
+  color: white;
+}
+
+.country-flag {
+  width: 40px !important;
+  height: 27px !important;
+}
+
+ion-slides {
+  --bullet-background-active: var(--ion-color-primary-contrast) !important;
+}
+
+ion-radio {
+  --color-checked: var(--ion-color-danger);
+}

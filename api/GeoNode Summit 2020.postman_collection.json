@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "18916c4e-91b6-4448-999b-0c17b1e09253",
+		"name": "GeoNode Summit 2020",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "2DkWeRYRYCwidWqtwlA9IvL0AJMoZB6S8iJFLfU2",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "8OsZciU4N4lkqyBHKFiEJQJuhjTnqzFZeoWsIofIEUTvxQUFu9FDRv2NelHikiGr3M47RpInANd27L862gPtjUWYbX276dQ2qlXDvRIvoob6LvMKNVu4veYieqKMt8tO",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "demo",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "demo",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "https://summit2020.cartoview.net/o/token/",
+					"protocol": "https",
+					"host": [
+						"summit2020",
+						"cartoview",
+						"net"
+					],
+					"path": [
+						"o",
+						"token",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "2DkWeRYRYCwidWqtwlA9IvL0AJMoZB6S8iJFLfU2",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "8OsZciU4N4lkqyBHKFiEJQJuhjTnqzFZeoWsIofIEUTvxQUFu9FDRv2NelHikiGr3M47RpInANd27L862gPtjUWYbX276dQ2qlXDvRIvoob6LvMKNVu4veYieqKMt8tO",
+							"type": "text"
+						},
+						{
+							"key": "token",
+							"value": "7PhTP77OmVu36QKMJboeclKXRxfa4N",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "https://summit2020.cartoview.net/o/revoke_token/",
+					"protocol": "https",
+					"host": [
+						"summit2020",
+						"cartoview",
+						"net"
+					],
+					"path": [
+						"o",
+						"revoke_token",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Layers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "7PhTP77OmVu36QKMJboeclKXRxfa4N",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://summit2020.cartoview.net/api/layers",
+					"protocol": "https",
+					"host": [
+						"summit2020",
+						"cartoview",
+						"net"
+					],
+					"path": [
+						"api",
+						"layers"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
