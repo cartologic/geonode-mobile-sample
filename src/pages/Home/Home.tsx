@@ -37,7 +37,7 @@ const Home: React.FC = () => {
 
   const fetchLayers = (token = null) => {
     axios
-      .get("/api/layers")
+      .get("/api/layers", { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         const tempLayers = response.data.objects.map((singleLayer) => {
           return {

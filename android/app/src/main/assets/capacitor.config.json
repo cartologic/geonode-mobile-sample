@@ -1,0 +1,21 @@
+{
+  "appId": "geonode.mobile",
+  "appName": "GeoNode Mobile",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": true,
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false,
+      "splashFullScreen": false,
+      "splashImmersive": false
+    },
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
+  },
+  "cordova": {},
+  "linuxAndroidStudioPath": "/snap/bin/android-studio"
+}
