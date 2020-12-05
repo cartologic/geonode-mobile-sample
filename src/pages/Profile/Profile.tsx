@@ -30,7 +30,7 @@ const Profile: React.FC = () => {
             <IonCol className="ion-text-center">
               <img
                 className="profile-picture"
-                src={currentUser.avatar}
+                src={currentUser?.avatar}
                 alt="profile"
               />
             </IonCol>
