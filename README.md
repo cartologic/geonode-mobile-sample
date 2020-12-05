@@ -4,9 +4,13 @@ This repo is part of the `GeoNode Summit` in 2020
 
 It is a sample cross platform mobile app that leverages GeoNode as a back-end
 
+## Branches
+1. `Master` The starting point of this workshop.
+2. `Completed` The complete working project.
+
 ## Workshop Content
 The following steps will be followed in the workshop:
-1. Clone/Download the code from the repo https://github.com/Cartologic/geonode-mobile-sample
+1. Clone/Download the code from the repo https://github.com/Cartologic/geonode-mobile-sample.
 ```
 git clone https://github.com/cartologic/geonode-mobile-sample.git
 ```
@@ -23,9 +27,16 @@ npm install
 npm start
 ```
 6. To check how `Authentication` works, open the file `src/context/Authentication/AuthenticationContextProvider.tsx` and check the `loginHandler` method.
-7. To Enable Authorization on requests such as the `Get Layers` request. Open the file `src/pages/Home/Home.tsx` and add an authorization header to the Get request
+7. To Enable Authorization on requests such as the `Get Layers` request. Open the file `src/pages/Home/Home.tsx` and add an authorization header to the Get request.
 ```
 get("/api/layers", { headers: { Authorization: `Bearer ${token}` } })
 ```
 ### Create Android app
-8. 
+For detailed instructions, please refer to the official documentation https://ionicframework.com/docs/developing/android
+
+8. Generate code build, then create an Android project.
+```
+npm run build
+ionic capacitor add android
+ionic capacitor open android
+```
