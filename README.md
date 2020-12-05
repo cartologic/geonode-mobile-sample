@@ -2,6 +2,8 @@
 
 > This repo is a [workshop](https://summit.geonode.org/schedule/#session-202) as a part of the [GeoNode Summit](http://summit.geonode.org/) in 2020
 
+![geonode-mobile](https://user-images.githubusercontent.com/44545113/101247866-7834ab00-3724-11eb-9e62-5befed11fc7a.gif)
+
 # Introduction
 If you have GeoNode in your environment or considering it as a solution, then you might want to add additional functonalities to it in the future. Possible functionality would be to have a mobile client for your GeoNode backend that users can download and use directly, perhaps add data collection capabilities to that mobile client and send it to GeoNode, or even send push notifications to your users with updates. You can develop your own backend system (php - node - etc...) which consumes resources from your GeoNode directly with the discuess concept in this workshop.
 
