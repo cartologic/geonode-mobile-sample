@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
 import {
   IonPage,
   IonContent,
@@ -19,18 +19,46 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonCardSubtitle,
+  IonCardContent,
+  IonIcon
 } from "@ionic/react";
+import { calendarOutline } from "ionicons/icons";
 
+import axios from "../../utils/axios";
+import { AuthenticationContext } from "../../context";
 import { AndroidBackButtonExit } from "../../components";
 
 /**
  * The About page
  */
 const Home: React.FC = () => {
+  const { currentUser } = useContext(AuthenticationContext);
+  const [layers, setLayers] = useState([]);
+
+  const fetchLayers = (token = null) => {
+    axios
+      .get("/api/layers")
+      .then((response) => {
+        const tempLayers = response.data.objects.map((singleLayer) => {
+          return {
+            id: singleLayer.uuid,
+            title: singleLayer.title,
+            abstract: singleLayer.abstract,
+            thumbnail: singleLayer.thumbnail_url,
+            date: singleLayer.date.split("T")[0],
+          };
+        });
+        setLayers(tempLayers);
+      });
+  };
+
+  useEffect(() => {
+    currentUser ? fetchLayers(currentUser.accessToken) : fetchLayers();
+  }, [currentUser]);
+
   return (
     <IonPage>
       {isPlatform("android") && <AndroidBackButtonExit />}
-
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
@@ -58,18 +86,21 @@ const Home: React.FC = () => {
           </IonRow>
         </IonGrid>
         <IonListHeader>
-          <h1>Available Layers (4)</h1>
+          <h1>Available Layers {`(${layers.length})`}</h1>
         </IonListHeader>
         <IonGrid>
           <IonRow>
-            {[1, 2, 3, 4].map((item) => (
-              <IonCol size="6" key={item}>
+            {layers.map((layer) => (
+              <IonCol size="6" key={layer.id}>
                 <IonCard>
-                  <img src="http://placehold.it/300x300" alt="layer" />
+                  <img src={layer.thumbnail} alt="layer" />
                   <IonCardHeader>
-                    <IonCardTitle>Layer Title</IonCardTitle>
-                    <IonCardSubtitle>Layer abstract</IonCardSubtitle>
+                    <IonCardTitle>{layer.title}</IonCardTitle>
+                    <IonCardSubtitle>{layer.abstract}</IonCardSubtitle>
                   </IonCardHeader>
+                  <IonCardContent>
+                    <IonIcon icon={calendarOutline} slot="start" /> {layer.date}
+                  </IonCardContent>
                 </IonCard>
               </IonCol>
             ))}

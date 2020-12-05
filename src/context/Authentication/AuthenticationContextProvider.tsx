@@ -28,6 +28,7 @@ const AuthenticationContextProvider: React.FC = (props) => {
   }, []);
 
   const loginHandler = async (username: string, password: string) => {
+    // Prepare authentication request
     const authenticationRequestBody = {
       client_id: appConfig.authenticationClientId,
       client_secret: appConfig.authenticationClientSecret,
@@ -35,15 +36,14 @@ const AuthenticationContextProvider: React.FC = (props) => {
       username: username,
       password: password,
     };
-    const config = {
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    };
     try {
+      // Authenticate from GeoNode backend
       const authenticationResponse = await axios.post(
         appConfig.authenticationURL,
         qs.stringify(authenticationRequestBody),
-        config
+        {headers: { "Content-Type": "application/x-www-form-urlencoded" }}
       );
+      // Load profile details from GeoNode profile API endpoint
       const profileResponse = await axios.get(appConfig.profileURL, {
         params: { username },
       });
@@ -59,6 +59,7 @@ const AuthenticationContextProvider: React.FC = (props) => {
         refreshToken: authenticationResponse.data.refresh_token,
         expires: null,
       };
+      // Set User data in the context
       setCurrentUser(tempUser);
       return true;
     } catch (error) {
@@ -73,14 +74,11 @@ const AuthenticationContextProvider: React.FC = (props) => {
       client_secret: appConfig.authenticationClientSecret,
       token: currentUser?.accessToken,
     };
-    const config = {
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    };
     try {
       await axios.post(
         appConfig.logoutURL,
         qs.stringify(logoutRequestBody),
-        config
+        {headers: { "Content-Type": "application/x-www-form-urlencoded" }}
       );
       setCurrentUser(null);
       return true;
