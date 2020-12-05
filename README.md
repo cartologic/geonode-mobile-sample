@@ -11,7 +11,7 @@ If you have GeoNode in your environment or considering it as a solution, then yo
 1. Developers
 2. Business Owners
 
-# Development Perquisites
+# Development Prerequisites
 A basic knowledge of the following is needed to proceed with the workshop
 1. Node - React
 2. Android Studio (to make the android app) - xCode (to make the iOS app)
@@ -23,7 +23,7 @@ A basic knowledge of the following is needed to proceed with the workshop
 # Workshop Content
 Please follow the below steps (on `master` branch to complete the workshop):
 > The GeoNode instance you're using must have the CORS enabled for this to work.
-1. Log in to the GeoNode backend and register the mobile app in Djago oAuth Toolkit through GeoNode admin https://GeoNodeHost/en/admin/oauth2_provider/application/
+1. Log in to the GeoNode backend and register the mobile app in Django oAuth Toolkit through GeoNode admin (replace GeoNodeHost with your actual host address) https://[GeoNodeHost]/en/admin/oauth2_provider/application/
     - Create a new application.
     - Set `Client type` to `Confidential`.
     - Set `Authorization grant type` to `Resource owner password-based`.
