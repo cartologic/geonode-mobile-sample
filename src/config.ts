@@ -3,7 +3,7 @@
  */
 const appConfig = {
   defaultDarkMode: false,
-  serverBaseURL: "https://summit2020.cartoview.net/",
+  serverBaseURL: "https://summit2020.cartoview.net",
   profileURL: "api/profiles/",
   authenticationURL: "o/token/",
   authenticationType: "password",

@@ -2,13 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import {
   IonPage,
   IonContent,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonItem,
-  IonLabel,
   IonCard,
-  IonThumbnail,
   isPlatform,
   IonButtons,
   IonHeader,
@@ -17,12 +11,22 @@ import {
   IonToolbar,
   IonListHeader,
   IonCardHeader,
-  IonCardTitle,
-  IonCardSubtitle,
   IonCardContent,
-  IonIcon
+  IonIcon,
+  IonRefresher,
+  IonRefresherContent,
+  IonItem,
+  IonLabel,
+  IonChip,
+  IonBadge,
+  IonSpinner,
 } from "@ionic/react";
-import { calendarOutline } from "ionicons/icons";
+import {
+  layersOutline,
+  mapOutline,
+  documentTextOutline,
+  personOutline,
+} from "ionicons/icons";
 
 import axios from "../../utils/axios";
 import { AuthenticationContext } from "../../context";
@@ -33,28 +37,46 @@ import { AndroidBackButtonExit } from "../../components";
  */
 const Home: React.FC = () => {
   const { currentUser } = useContext(AuthenticationContext);
-  const [layers, setLayers] = useState([]);
+  const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
+  const [layersCount, setLayersCount] = useState(0);
+  const [mapsCount, setMapsCount] = useState(0);
+  const [documentsCount, setDocumentsCount] = useState(0);
+  const [usersCount, setUsersCount] = useState(0);
 
-  const fetchLayers = (token = null) => {
-    axios
-      .get("/api/layers", { headers: { Authorization: `Bearer ${token}` } })
-      .then((response) => {
-        const tempLayers = response.data.objects.map((singleLayer) => {
-          return {
-            id: singleLayer.uuid,
-            title: singleLayer.title,
-            abstract: singleLayer.abstract,
-            thumbnail: singleLayer.thumbnail_url,
-            date: singleLayer.date.split("T")[0],
-          };
-        });
-        setLayers(tempLayers);
+  const fetchCounts = async (token = null) => {
+    setShowLoadingSpinner(true);
+    try {
+      const layersCountResponse = await axios.get("/api/layers", {
+        headers: { Authorization: `Bearer ${token}` },
       });
+      const mapsCountResponse = await axios.get("/api/maps", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const documentsCountResponse = await axios.get("/api/documents", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const usersCountResponse = await axios.get("/api/profiles", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setLayersCount(layersCountResponse.data.meta.total_count);
+      setMapsCount(mapsCountResponse.data.meta.total_count);
+      setDocumentsCount(documentsCountResponse.data.meta.total_count);
+      setUsersCount(usersCountResponse.data.meta.total_count);
+    } finally {
+      setShowLoadingSpinner(false);
+    }
   };
 
   useEffect(() => {
-    currentUser ? fetchLayers(currentUser.accessToken) : fetchLayers();
+    currentUser ? fetchCounts(currentUser.accessToken) : fetchCounts();
   }, [currentUser]);
+
+  const refreshPage = async (event) => {
+    currentUser
+      ? await fetchCounts(currentUser.accessToken)
+      : await fetchCounts();
+    event.detail.complete();
+  };
 
   return (
     <IonPage>
@@ -65,47 +87,87 @@ const Home: React.FC = () => {
             <IonMenuButton />
           </IonButtons>
           <IonTitle>GeoNode Mobile</IonTitle>
+          {showLoadingSpinner && (
+            <IonSpinner slot="end" color="light" className="ion-margin-end" />
+          )}
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-              <IonCard>
-                <IonItem lines="none">
-                  <IonThumbnail slot="start">
-                    <img src="/assets/icon/icon.png" alt="logo" />
-                  </IonThumbnail>
-                  <IonLabel>
-                    <h1>GeoNode Mobile Client</h1> by{" "}
-                    <a href="http://cartologic.com/">Cartologic</a>
-                  </IonLabel>
-                </IonItem>
-              </IonCard>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
+        <IonRefresher slot="fixed" onIonRefresh={refreshPage}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
         <IonListHeader>
-          <h1>Available Layers {`(${layers.length})`}</h1>
+          <h1>Welcome</h1>
         </IonListHeader>
-        <IonGrid>
-          <IonRow>
-            {layers.map((layer) => (
-              <IonCol size="6" key={layer.id}>
-                <IonCard>
-                  <img src={layer.thumbnail} alt="layer" />
-                  <IonCardHeader>
-                    <IonCardTitle>{layer.title}</IonCardTitle>
-                    <IonCardSubtitle>{layer.abstract}</IonCardSubtitle>
-                  </IonCardHeader>
-                  <IonCardContent>
-                    <IonIcon icon={calendarOutline} slot="start" /> {layer.date}
-                  </IonCardContent>
-                </IonCard>
-              </IonCol>
-            ))}
-          </IonRow>
-        </IonGrid>
+        <IonItem lines="none">
+          GeoNode is an open source platform for sharing geospatial data and
+          maps.
+        </IonItem>
+        <IonCard>
+          <IonCardHeader>
+            <IonItem
+              lines="none"
+              className="ion-no-padding"
+              href="/page/layers"
+            >
+              <IonChip slot="start">
+                <IonIcon icon={layersOutline} />
+                <IonLabel>Layers</IonLabel>
+              </IonChip>
+              <IonBadge slot="end">{layersCount}</IonBadge>
+            </IonItem>
+          </IonCardHeader>
+          <IonCardContent>
+            Geospatial data published by other users, organizations and public
+            sources. Download data in standard formats.
+          </IonCardContent>
+        </IonCard>
+        <IonCard>
+          <IonCardHeader>
+            <IonItem lines="none" className="ion-no-padding">
+              <IonChip slot="start">
+                <IonIcon icon={mapOutline} />
+                <IonLabel>Maps</IonLabel>
+              </IonChip>
+              <IonBadge slot="end">{mapsCount}</IonBadge>
+            </IonItem>
+          </IonCardHeader>
+          <IonCardContent>
+            Data is available for browsing, aggregating and styling to generate
+            maps which can be saved, downloaded, shared publicly or restricted
+            to specify users only.
+          </IonCardContent>
+        </IonCard>
+        <IonCard>
+          <IonCardHeader>
+            <IonItem lines="none" className="ion-no-padding">
+              <IonChip slot="start">
+                <IonIcon icon={documentTextOutline} />
+                <IonLabel>Documents</IonLabel>
+              </IonChip>
+              <IonBadge slot="end">{documentsCount}</IonBadge>
+            </IonItem>
+          </IonCardHeader>
+          <IonCardContent>
+            As for the layers and maps GeoNode allows to publish tabular and
+            text data, manage theirs metadata and associated documents.
+          </IonCardContent>
+        </IonCard>
+        <IonCard>
+          <IonCardHeader>
+            <IonItem lines="none" className="ion-no-padding">
+              <IonChip slot="start">
+                <IonIcon icon={personOutline} />
+                <IonLabel>Users</IonLabel>
+              </IonChip>
+              <IonBadge slot="end">{usersCount}</IonBadge>
+            </IonItem>
+          </IonCardHeader>
+          <IonCardContent>
+            Geonode allows registered users to easily upload geospatial data and
+            various documents in several formats.
+          </IonCardContent>
+        </IonCard>
       </IonContent>
     </IonPage>
   );
