@@ -9,7 +9,6 @@ import {
   IonMenuButton,
   IonTitle,
   IonToolbar,
-  IonListHeader,
   IonCardHeader,
   IonCardContent,
   IonIcon,
@@ -143,7 +142,11 @@ const Home: React.FC = () => {
         </IonCard>
         <IonCard>
           <IonCardHeader>
-            <IonItem lines="none" className="ion-no-padding">
+            <IonItem
+              lines="none"
+              className="ion-no-padding"
+              href="/page/documents"
+            >
               <IonChip slot="start">
                 <IonIcon icon={documentTextOutline} />
                 <IonLabel>Documents</IonLabel>

@@ -5,5 +5,15 @@ import WelcomeScreen from "./WelcomeScreen";
 import About from "./About";
 import Layers from "./Layers";
 import Maps from "./Maps";
+import Documents from "./Documents";
 
-export { Home, Profile, Settings, WelcomeScreen, About, Layers, Maps };
+export {
+  Home,
+  Profile,
+  Settings,
+  WelcomeScreen,
+  About,
+  Layers,
+  Maps,
+  Documents,
+};

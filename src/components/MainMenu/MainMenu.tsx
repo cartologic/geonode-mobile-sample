@@ -29,6 +29,8 @@ import {
   layersSharp,
   mapOutline,
   mapSharp,
+  documentTextOutline,
+  documentTextSharp,
 } from "ionicons/icons";
 import "./MainMenu.css";
 import packageJson from "../../../package.json";
@@ -59,6 +61,12 @@ const corePages: AppPage[] = [
     url: "/page/maps",
     iosIcon: mapOutline,
     mdIcon: mapSharp,
+  },
+  {
+    title: "Documents",
+    url: "/page/documents",
+    iosIcon: documentTextOutline,
+    mdIcon: documentTextSharp,
   },
   {
     title: "Settings",

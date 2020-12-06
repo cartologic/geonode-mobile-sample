@@ -18,6 +18,7 @@ import {
   About,
   Layers,
   Maps,
+  Documents,
 } from "./pages";
 
 const App: React.FC = () => {
@@ -43,6 +44,7 @@ const App: React.FC = () => {
               <Route path="/page/about" component={About} exact />
               <Route path="/page/layers" component={Layers} exact />
               <Route path="/page/maps" component={Maps} exact />
+              <Route path="/page/documents" component={Documents} exact />
               <Route path="/page/welcome" component={WelcomeScreen} exact />
               <Redirect
                 from="/"
