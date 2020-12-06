@@ -111,7 +111,9 @@ const response = await axios.get("/api/layers", {
           params: {
             order_by: sortLayersBy,
           },
-          headers: { Authorization: `Bearer ${token}` } },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 ```
 
