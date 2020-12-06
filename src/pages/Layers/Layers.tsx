@@ -57,7 +57,7 @@ const Layers: React.FC = () => {
         });
         const tempLayers = response.data.objects.map((singleLayer) => {
           return {
-            id: singleLayer.uuid,
+            uuid: singleLayer.uuid,
             title: singleLayer.title,
             abstract: singleLayer.abstract,
             thumbnail: singleLayer.thumbnail_url,
@@ -149,7 +149,7 @@ const Layers: React.FC = () => {
           </IonListHeader>
           {layers.map((layer) => (
             <IonItem
-              key={layer.id}
+              key={layer.uuid}
               href={appConfig.serverBaseURL + layer.url}
               target="_blank"
             >

@@ -54,7 +54,7 @@ const Documents: React.FC = () => {
         });
         const tempDocuments = response.data.objects.map((singleDocument) => {
           return {
-            id: singleDocument.uuid,
+            uuid: singleDocument.uuid,
             title: singleDocument.title,
             abstract: singleDocument.abstract,
             thumbnail: singleDocument.thumbnail_url,
@@ -146,7 +146,7 @@ const Documents: React.FC = () => {
           </IonListHeader>
           {documents.map((document) => (
             <IonItem
-              key={document.id}
+              key={document.uuid}
               href={appConfig.serverBaseURL + document.url}
               target="_blank"
             >

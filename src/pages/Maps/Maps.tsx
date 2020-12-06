@@ -54,7 +54,7 @@ const Maps: React.FC = () => {
         });
         const tempMaps = response.data.objects.map((singleMap) => {
           return {
-            id: singleMap.uuid,
+            uuid: singleMap.uuid,
             title: singleMap.title,
             abstract: singleMap.abstract,
             thumbnail: singleMap.thumbnail_url,
@@ -144,7 +144,7 @@ const Maps: React.FC = () => {
           </IonListHeader>
           {maps.map((map) => (
             <IonItem
-              key={map.id}
+              key={map.uuid}
               href={appConfig.serverBaseURL + map.url}
               target="_blank"
             >
