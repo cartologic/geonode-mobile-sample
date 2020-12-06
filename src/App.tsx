@@ -10,7 +10,7 @@ import { Redirect, Route } from "react-router-dom";
 
 import { GeneralContext, AuthenticationContext } from "./context";
 import { MainMenu, Login } from "./components";
-import { WelcomeScreen, Home, Profile, Settings, About } from "./pages";
+import { WelcomeScreen, Home, Profile, Settings, About, Layers } from "./pages";
 
 const App: React.FC = () => {
   const { initializeGeneralContext, settings } = useContext(GeneralContext);
@@ -33,6 +33,7 @@ const App: React.FC = () => {
               <Route path="/page/settings" component={Settings} exact />
               <Route path="/page/profile" component={Profile} exact />
               <Route path="/page/about" component={About} exact />
+              <Route path="/page/layers" component={Layers} exact />
               <Route path="/page/welcome" component={WelcomeScreen} exact />
               <Redirect
                 from="/"

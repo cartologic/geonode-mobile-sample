@@ -23,6 +23,8 @@ import {
   settingsSharp,
   informationCircleOutline,
   informationCircleSharp,
+  layersOutline,
+  layersSharp,
 } from "ionicons/icons";
 import "./MainMenu.css";
 import packageJson from "../../../package.json";
@@ -41,6 +43,12 @@ const corePages: AppPage[] = [
     url: "/page/home",
     iosIcon: homeOutline,
     mdIcon: homeSharp,
+  },
+  {
+    title: "Layers",
+    url: "/page/layers",
+    iosIcon: layersOutline,
+    mdIcon: layersSharp,
   },
   {
     title: "Settings",
