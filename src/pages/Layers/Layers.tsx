@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useCallback } from "react";
 import {
   IonPage,
   IonContent,
@@ -18,8 +18,17 @@ import {
   IonItem,
   IonThumbnail,
   IonLabel,
+  IonPopover,
+  IonRadio,
+  IonRadioGroup,
+  IonChip,
 } from "@ionic/react";
-import { calendarOutline, filter, options, eyeOutline } from "ionicons/icons";
+import {
+  calendarOutline,
+  filter,
+  eyeOutline,
+  personOutline,
+} from "ionicons/icons";
 
 import axios from "../../utils/axios";
 import { AuthenticationContext } from "../../context";
@@ -32,33 +41,43 @@ import "./Layers.css";
  */
 const Home: React.FC = () => {
   const { currentUser } = useContext(AuthenticationContext);
+  const [showSortPopover, setShowSortPopover] = useState(false);
   const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
   const [layers, setLayers] = useState([]);
+  const [sortLayersBy, setSortLayersBy] = useState("-date");
 
-  const fetchLayers = async (token = null) => {
-    setShowLoadingSpinner(true);
-    try {
-      const response = await axios.get("/api/layers");
-      const tempLayers = response.data.objects.map((singleLayer) => {
-        return {
-          id: singleLayer.uuid,
-          title: singleLayer.title,
-          abstract: singleLayer.abstract,
-          thumbnail: singleLayer.thumbnail_url,
-          date: singleLayer.date.split("T")[0],
-          url: singleLayer.detail_url,
-          viewCount: singleLayer.popular_count,
-        };
-      });
-      setLayers(tempLayers);
-    } finally {
-      setShowLoadingSpinner(false);
-    }
-  };
+  const fetchLayers = useCallback(
+    async (token = null) => {
+      setShowLoadingSpinner(true);
+      try {
+        const response = await axios.get("/api/layers", {
+          params: {
+            order_by: sortLayersBy,
+          },
+        });
+        const tempLayers = response.data.objects.map((singleLayer) => {
+          return {
+            id: singleLayer.uuid,
+            title: singleLayer.title,
+            abstract: singleLayer.abstract,
+            thumbnail: singleLayer.thumbnail_url,
+            date: singleLayer.date.split("T")[0],
+            url: singleLayer.detail_url,
+            viewCount: singleLayer.popular_count,
+            ownerName: singleLayer.owner_name,
+          };
+        });
+        setLayers(tempLayers);
+      } finally {
+        setShowLoadingSpinner(false);
+      }
+    },
+    [sortLayersBy]
+  );
 
   useEffect(() => {
     currentUser ? fetchLayers(currentUser.accessToken) : fetchLayers();
-  }, [currentUser]);
+  }, [currentUser, fetchLayers]);
 
   const refreshPage = async (event) => {
     currentUser
@@ -80,16 +99,47 @@ const Home: React.FC = () => {
             {showLoadingSpinner && (
               <IonSpinner slot="end" color="light" className="ion-margin-end" />
             )}
-            <IonButton>
-              <IonIcon slot="icon-only" icon={options} />
-            </IonButton>
-            <IonButton>
+            <IonButton onClick={() => setShowSortPopover(true)}>
               <IonIcon slot="icon-only" icon={filter} />
             </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        <IonPopover
+          isOpen={showSortPopover}
+          cssClass="my-custom-class"
+          onDidDismiss={(e) => setShowSortPopover(false)}
+        >
+          <IonRadioGroup
+            value={sortLayersBy}
+            onIonChange={(e) => setSortLayersBy(e.detail.value)}
+          >
+            <IonListHeader>
+              <IonLabel>Sort by</IonLabel>
+            </IonListHeader>
+            <IonItem>
+              <IonLabel>Most recent</IonLabel>
+              <IonRadio slot="start" value="-date" color="primary" />
+            </IonItem>
+            <IonItem>
+              <IonLabel>Less recent</IonLabel>
+              <IonRadio slot="start" value="date" color="primary" />
+            </IonItem>
+            <IonItem>
+              <IonLabel>A - Z</IonLabel>
+              <IonRadio slot="start" value="title" color="primary" />
+            </IonItem>
+            <IonItem>
+              <IonLabel>Z - A</IonLabel>
+              <IonRadio slot="start" value="-title" color="primary" />
+            </IonItem>
+            <IonItem>
+              <IonLabel>Most popular</IonLabel>
+              <IonRadio slot="start" value="-popular_count" color="primary" />
+            </IonItem>
+          </IonRadioGroup>
+        </IonPopover>
         <IonRefresher slot="fixed" onIonRefresh={refreshPage}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
@@ -110,11 +160,19 @@ const Home: React.FC = () => {
                 <h2>{layer.title}</h2>
                 <p>{layer.abstract}</p>
                 <p>
-                  <IonIcon icon={calendarOutline} slot="start" /> {layer.date}
+                  <IonChip>
+                    <IonIcon icon={personOutline} />
+                    <IonLabel>{layer.ownerName}</IonLabel>
+                  </IonChip>
                 </p>
-                <p>
-                  <IonIcon icon={eyeOutline} slot="start" /> {layer.viewCount}
-                </p>
+                <IonChip>
+                  <IonIcon icon={calendarOutline} />
+                  <IonLabel>{layer.date}</IonLabel>
+                </IonChip>
+                <IonChip>
+                  <IonIcon icon={eyeOutline} />
+                  <IonLabel>{layer.viewCount}</IonLabel>
+                </IonChip>
               </IonLabel>
             </IonItem>
           ))}
