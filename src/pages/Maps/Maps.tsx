@@ -33,7 +33,6 @@ import {
 import axios from "../../utils/axios";
 import { AuthenticationContext } from "../../context";
 import { AndroidBackButtonExit } from "../../components";
-import appConfig from "../../config";
 import "./Maps.css";
 
 const Maps: React.FC = () => {
@@ -54,6 +53,7 @@ const Maps: React.FC = () => {
         });
         const tempMaps = response.data.objects.map((singleMap) => {
           return {
+            id: singleMap.id,
             uuid: singleMap.uuid,
             title: singleMap.title,
             abstract: singleMap.abstract,
@@ -143,11 +143,7 @@ const Maps: React.FC = () => {
             <h1>{`${maps.length} Maps found`}</h1>
           </IonListHeader>
           {maps.map((map) => (
-            <IonItem
-              key={map.uuid}
-              href={appConfig.serverBaseURL + map.url}
-              target="_blank"
-            >
+            <IonItem key={map.uuid} href={`/page/maps/${map.id}`}>
               <IonThumbnail slot="start" className="map-image">
                 <img src={map.thumbnail} alt="map" />
               </IonThumbnail>

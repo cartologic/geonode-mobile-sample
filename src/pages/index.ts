@@ -6,6 +6,7 @@ import About from "./About";
 import Layers from "./Layers";
 import Maps from "./Maps";
 import Documents from "./Documents";
+import MapDetails from "./MapDetails";
 
 export {
   Home,
@@ -16,4 +17,5 @@ export {
   Layers,
   Maps,
   Documents,
+  MapDetails,
 };

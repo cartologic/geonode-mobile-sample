@@ -5,9 +5,6 @@ import { IonButton, IonContent, IonSlide, IonSlides } from "@ionic/react";
 import "./WelcomeScreen.css";
 import { GeneralContext } from "../../context";
 
-/**
- * The Welcome Screen
- */
 const Menu: React.FC = () => {
   const { setShowWelcomeScreen } = useContext(GeneralContext);
   const slidesRef = useRef<HTMLIonSlidesElement>(null);

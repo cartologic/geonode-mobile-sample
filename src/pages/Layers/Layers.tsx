@@ -36,9 +36,6 @@ import { AndroidBackButtonExit } from "../../components";
 import appConfig from "../../config";
 import "./Layers.css";
 
-/**
- * The About page
- */
 const Layers: React.FC = () => {
   const { currentUser } = useContext(AuthenticationContext);
   const [showSortPopover, setShowSortPopover] = useState(false);

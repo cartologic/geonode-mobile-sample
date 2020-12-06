@@ -32,9 +32,6 @@ import { AuthenticationContext, GeneralContext } from "../../context";
 import { AndroidBackButtonExit } from "../../components";
 import "./Home.css";
 
-/**
- * The About page
- */
 const Home: React.FC = () => {
   const { currentUser } = useContext(AuthenticationContext);
   const { setShowLoginModal } = useContext(GeneralContext);
