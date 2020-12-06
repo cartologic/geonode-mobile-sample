@@ -34,55 +34,50 @@ import axios from "../../utils/axios";
 import { AuthenticationContext } from "../../context";
 import { AndroidBackButtonExit } from "../../components";
 import appConfig from "../../config";
-import "./Layers.css";
+import "./Maps.css";
 
-/**
- * The About page
- */
-const Layers: React.FC = () => {
+const Maps: React.FC = () => {
   const { currentUser } = useContext(AuthenticationContext);
   const [showSortPopover, setShowSortPopover] = useState(false);
   const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
-  const [layers, setLayers] = useState([]);
-  const [sortLayersBy, setSortLayersBy] = useState("-date");
+  const [maps, setMaps] = useState([]);
+  const [sortMapsBy, setSortMapsBy] = useState("-date");
 
-  const fetchLayers = useCallback(
+  const fetchMaps = useCallback(
     async (token = null) => {
       setShowLoadingSpinner(true);
       try {
-        const response = await axios.get("/api/layers", {
+        const response = await axios.get("/api/maps", {
           params: {
-            order_by: sortLayersBy,
+            order_by: sortMapsBy,
           },
         });
-        const tempLayers = response.data.objects.map((singleLayer) => {
+        const tempMaps = response.data.objects.map((singleMap) => {
           return {
-            id: singleLayer.uuid,
-            title: singleLayer.title,
-            abstract: singleLayer.abstract,
-            thumbnail: singleLayer.thumbnail_url,
-            date: singleLayer.date.split("T")[0],
-            url: singleLayer.detail_url,
-            viewCount: singleLayer.popular_count,
-            ownerName: singleLayer.owner_name,
+            id: singleMap.uuid,
+            title: singleMap.title,
+            abstract: singleMap.abstract,
+            thumbnail: singleMap.thumbnail_url,
+            date: singleMap.date.split("T")[0],
+            url: singleMap.detail_url,
+            viewCount: singleMap.popular_count,
+            ownerName: singleMap.owner_name,
           };
         });
-        setLayers(tempLayers);
+        setMaps(tempMaps);
       } finally {
         setShowLoadingSpinner(false);
       }
     },
-    [sortLayersBy]
+    [sortMapsBy]
   );
 
   useEffect(() => {
-    currentUser ? fetchLayers(currentUser.accessToken) : fetchLayers();
-  }, [currentUser, fetchLayers]);
+    currentUser ? fetchMaps(currentUser.accessToken) : fetchMaps();
+  }, [currentUser, fetchMaps]);
 
   const refreshPage = async (event) => {
-    currentUser
-      ? await fetchLayers(currentUser.accessToken)
-      : await fetchLayers();
+    currentUser ? await fetchMaps(currentUser.accessToken) : await fetchMaps();
     event.detail.complete();
   };
 
@@ -94,7 +89,7 @@ const Layers: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Layers</IonTitle>
+          <IonTitle>Maps</IonTitle>
           <IonButtons slot="secondary">
             {showLoadingSpinner && (
               <IonSpinner slot="end" color="light" className="ion-margin-end" />
@@ -112,8 +107,8 @@ const Layers: React.FC = () => {
           onDidDismiss={(e) => setShowSortPopover(false)}
         >
           <IonRadioGroup
-            value={sortLayersBy}
-            onIonChange={(e) => setSortLayersBy(e.detail.value)}
+            value={sortMapsBy}
+            onIonChange={(e) => setSortMapsBy(e.detail.value)}
           >
             <IonListHeader>
               <IonLabel>Sort by</IonLabel>
@@ -145,33 +140,33 @@ const Layers: React.FC = () => {
         </IonRefresher>
         <IonList>
           <IonListHeader>
-            <h1>{`${layers.length} Layers found`}</h1>
+            <h1>{`${maps.length} Maps found`}</h1>
           </IonListHeader>
-          {layers.map((layer) => (
+          {maps.map((map) => (
             <IonItem
-              key={layer.id}
-              href={appConfig.serverBaseURL + layer.url}
+              key={map.id}
+              href={appConfig.serverBaseURL + map.url}
               target="_blank"
             >
-              <IonThumbnail slot="start" className="layer-image">
-                <img src={layer.thumbnail} alt="layer" />
+              <IonThumbnail slot="start" className="map-image">
+                <img src={map.thumbnail} alt="map" />
               </IonThumbnail>
               <IonLabel>
-                <h2>{layer.title}</h2>
-                <p>{layer.abstract}</p>
+                <h2>{map.title}</h2>
+                <p>{map.abstract}</p>
                 <p>
                   <IonChip>
                     <IonIcon icon={personOutline} />
-                    <IonLabel>{layer.ownerName}</IonLabel>
+                    <IonLabel>{map.ownerName}</IonLabel>
                   </IonChip>
                 </p>
                 <IonChip>
                   <IonIcon icon={calendarOutline} />
-                  <IonLabel>{layer.date}</IonLabel>
+                  <IonLabel>{map.date}</IonLabel>
                 </IonChip>
                 <IonChip>
                   <IonIcon icon={eyeOutline} />
-                  <IonLabel>{layer.viewCount}</IonLabel>
+                  <IonLabel>{map.viewCount}</IonLabel>
                 </IonChip>
               </IonLabel>
             </IonItem>
@@ -182,4 +177,4 @@ const Layers: React.FC = () => {
   );
 };
 
-export default Layers;
+export default Maps;

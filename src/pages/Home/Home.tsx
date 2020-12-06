@@ -29,7 +29,7 @@ import {
 } from "ionicons/icons";
 
 import axios from "../../utils/axios";
-import { AuthenticationContext } from "../../context";
+import { AuthenticationContext, GeneralContext } from "../../context";
 import { AndroidBackButtonExit } from "../../components";
 
 /**
@@ -37,6 +37,7 @@ import { AndroidBackButtonExit } from "../../components";
  */
 const Home: React.FC = () => {
   const { currentUser } = useContext(AuthenticationContext);
+  const { setShowLoginModal } = useContext(GeneralContext);
   const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
   const [layersCount, setLayersCount] = useState(0);
   const [mapsCount, setMapsCount] = useState(0);
@@ -88,9 +89,19 @@ const Home: React.FC = () => {
         <IonRefresher slot="fixed" onIonRefresh={refreshPage}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
-        <IonListHeader>
-          <h1>Welcome</h1>
-        </IonListHeader>
+
+        <IonItem lines="none">
+          <h1 slot="start">Welcome</h1>
+          {!currentUser && (
+            <IonChip
+              slot="end"
+              color="primary"
+              onClick={() => setShowLoginModal(true)}
+            >
+              Login
+            </IonChip>
+          )}
+        </IonItem>
         <IonItem lines="none">
           GeoNode is an open source platform for sharing geospatial data and
           maps.
@@ -116,7 +127,7 @@ const Home: React.FC = () => {
         </IonCard>
         <IonCard>
           <IonCardHeader>
-            <IonItem lines="none" className="ion-no-padding">
+            <IonItem lines="none" className="ion-no-padding" href="/page/maps">
               <IonChip slot="start">
                 <IonIcon icon={mapOutline} />
                 <IonLabel>Maps</IonLabel>
