@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useContext } from "react";
-import { IonPage, IonContent } from "@ionic/react";
+import React, { useEffect, useState } from "react";
+import { IonContent } from "@ionic/react";
 import { useParams } from "react-router-dom";
 
 import axios from "../../utils/axios";
-import { AuthenticationContext } from "../../context";
 import { PageHeader } from "../../components";
 
 interface ParamTypes {
@@ -11,7 +10,6 @@ interface ParamTypes {
 }
 
 const MapDetails: React.FC = () => {
-  const { currentUser } = useContext(AuthenticationContext);
   const { mapId } = useParams<ParamTypes>();
   const [mapTitle, setMapTitle] = useState("");
 
@@ -21,12 +19,11 @@ const MapDetails: React.FC = () => {
         params: {
           id: mapId,
         },
-        headers: { Authorization: `Bearer ${currentUser.accessToken}` },
       })
       .then((response) => {
         setMapTitle(response.data.objects[0].title);
       });
-  }, [mapId, currentUser.accessToken]);
+  }, [mapId]);
   return (
     <IonContent fullscreen>
       <PageHeader title={mapTitle} />
