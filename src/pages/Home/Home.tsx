@@ -31,6 +31,7 @@ import {
 import axios from "../../utils/axios";
 import { AuthenticationContext } from "../../context";
 import { AndroidBackButtonExit } from "../../components";
+import "./Home.css";
 
 /**
  * The About page
@@ -97,6 +98,7 @@ const Home: React.FC = () => {
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
         <IonListHeader>
+          <img className="home-logo" src="/assets/icon/icon.png" alt="logo" />{" "}
           <h1>Welcome</h1>
         </IonListHeader>
         <IonItem lines="none">
