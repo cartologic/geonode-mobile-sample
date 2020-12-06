@@ -2,7 +2,8 @@
 
 > This repo is a [workshop](https://summit.geonode.org/schedule/#session-202) as a part of the [GeoNode Summit](http://summit.geonode.org/) in 2020
 
-![geonode-mobile](https://user-images.githubusercontent.com/44545113/101247866-7834ab00-3724-11eb-9e62-5befed11fc7a.gif)
+![geonode-mobile](https://user-images.githubusercontent.com/44545113/101292037-a7771500-3815-11eb-803c-75d9b274fa7a.gif)
+
 
 # Introduction
 
