@@ -157,16 +157,16 @@ const Documents: React.FC = () => {
                 <h2>{document.title}</h2>
                 <p>{document.abstract}</p>
                 <p>
-                  <IonChip>
+                  <IonChip color="primary">
                     <IonIcon icon={personOutline} />
                     <IonLabel>{document.ownerName}</IonLabel>
                   </IonChip>
                 </p>
-                <IonChip>
+                <IonChip color="primary">
                   <IonIcon icon={calendarOutline} />
                   <IonLabel>{document.date}</IonLabel>
                 </IonChip>
-                <IonChip>
+                <IonChip color="danger">
                   <IonIcon icon={eyeOutline} />
                   <IonLabel>{document.viewCount}</IonLabel>
                 </IonChip>

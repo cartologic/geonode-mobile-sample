@@ -155,16 +155,16 @@ const Maps: React.FC = () => {
                 <h2>{map.title}</h2>
                 <p>{map.abstract}</p>
                 <p>
-                  <IonChip>
+                  <IonChip color="primary">
                     <IonIcon icon={personOutline} />
                     <IonLabel>{map.ownerName}</IonLabel>
                   </IonChip>
                 </p>
-                <IonChip>
+                <IonChip color="primary">
                   <IonIcon icon={calendarOutline} />
                   <IonLabel>{map.date}</IonLabel>
                 </IonChip>
-                <IonChip>
+                <IonChip color="danger">
                   <IonIcon icon={eyeOutline} />
                   <IonLabel>{map.viewCount}</IonLabel>
                 </IonChip>

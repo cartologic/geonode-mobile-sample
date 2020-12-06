@@ -160,16 +160,16 @@ const Layers: React.FC = () => {
                 <h2>{layer.title}</h2>
                 <p>{layer.abstract}</p>
                 <p>
-                  <IonChip>
+                  <IonChip color="primary">
                     <IonIcon icon={personOutline} />
                     <IonLabel>{layer.ownerName}</IonLabel>
                   </IonChip>
                 </p>
-                <IonChip>
+                <IonChip color="primary">
                   <IonIcon icon={calendarOutline} />
                   <IonLabel>{layer.date}</IonLabel>
                 </IonChip>
-                <IonChip>
+                <IonChip color="danger">
                   <IonIcon icon={eyeOutline} />
                   <IonLabel>{layer.viewCount}</IonLabel>
                 </IonChip>

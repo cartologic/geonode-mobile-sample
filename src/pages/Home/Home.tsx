@@ -112,7 +112,7 @@ const Home: React.FC = () => {
               className="ion-no-padding"
               href="/page/layers"
             >
-              <IonChip slot="start">
+              <IonChip slot="start" color="primary">
                 <IonIcon icon={layersOutline} />
                 <IonLabel>Layers</IonLabel>
               </IonChip>
@@ -127,7 +127,7 @@ const Home: React.FC = () => {
         <IonCard>
           <IonCardHeader>
             <IonItem lines="none" className="ion-no-padding" href="/page/maps">
-              <IonChip slot="start">
+              <IonChip slot="start" color="primary">
                 <IonIcon icon={mapOutline} />
                 <IonLabel>Maps</IonLabel>
               </IonChip>
@@ -147,7 +147,7 @@ const Home: React.FC = () => {
               className="ion-no-padding"
               href="/page/documents"
             >
-              <IonChip slot="start">
+              <IonChip slot="start" color="primary">
                 <IonIcon icon={documentTextOutline} />
                 <IonLabel>Documents</IonLabel>
               </IonChip>
@@ -162,7 +162,7 @@ const Home: React.FC = () => {
         <IonCard>
           <IonCardHeader>
             <IonItem lines="none" className="ion-no-padding">
-              <IonChip slot="start">
+              <IonChip slot="start" color="primary">
                 <IonIcon icon={personOutline} />
                 <IonLabel>Users</IonLabel>
               </IonChip>
