@@ -17,6 +17,8 @@ import { useLocation } from "react-router-dom";
 import {
   homeOutline,
   homeSharp,
+  logInOutline,
+  logInSharp,
   logOutOutline,
   logOutSharp,
   settingsOutline,
@@ -25,6 +27,10 @@ import {
   informationCircleSharp,
   layersOutline,
   layersSharp,
+  mapOutline,
+  mapSharp,
+  documentTextOutline,
+  documentTextSharp,
 } from "ionicons/icons";
 import "./MainMenu.css";
 import packageJson from "../../../package.json";
@@ -49,6 +55,18 @@ const corePages: AppPage[] = [
     url: "/page/layers",
     iosIcon: layersOutline,
     mdIcon: layersSharp,
+  },
+  {
+    title: "Maps",
+    url: "/page/maps",
+    iosIcon: mapOutline,
+    mdIcon: mapSharp,
+  },
+  {
+    title: "Documents",
+    url: "/page/documents",
+    iosIcon: documentTextOutline,
+    mdIcon: documentTextSharp,
   },
   {
     title: "Settings",
@@ -103,16 +121,29 @@ const MainMenu: React.FC = () => {
               />
             )}
           </IonRow>
-          <IonRow className="ion-justify-content-center">
-            <h1
-              className="ion-no-margin color-white"
-              onClick={currentUser ? undefined : () => setShowLoginModal(true)}
-            >
-              {currentUser ? currentUser.username : "Login"}
+          <IonRow className="ion-justify-content-center ion-margin-top">
+            <h1 className="ion-no-margin color-white">
+              {currentUser?.username}
             </h1>
           </IonRow>
         </IonGrid>
         <IonList id="inbox-list">
+          {!currentUser && (
+            <IonItem
+              className="ion-margin-bottom"
+              lines="none"
+              detail={false}
+              onClick={() => setShowLoginModal(true)}
+            >
+              <IonIcon
+                className="ion-padding-start"
+                slot="start"
+                ios={logInOutline}
+                md={logInSharp}
+              />
+              <IonLabel>Login</IonLabel>
+            </IonItem>
+          )}
           {corePages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>

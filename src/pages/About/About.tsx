@@ -17,10 +17,7 @@ import {
 
 import { PageHeader, AndroidBackButtonExit } from "../../components";
 
-/**
- * The Settings page
- */
-const Settings: React.FC = () => {
+const About: React.FC = () => {
   return (
     <IonPage>
       {isPlatform("android") && <AndroidBackButtonExit />}
@@ -53,4 +50,4 @@ const Settings: React.FC = () => {
   );
 };
 
-export default Settings;
+export default About;

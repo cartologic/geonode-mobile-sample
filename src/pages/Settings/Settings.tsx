@@ -20,9 +20,6 @@ import "./Settings.css";
 import { GeneralContext } from "../../context";
 import { PageHeader, AndroidBackButtonExit } from "../../components";
 
-/**
- * The Settings page
- */
 const Settings: React.FC = () => {
   const { settings, setDarkMode } = useContext(GeneralContext);
 

@@ -9,7 +9,6 @@ import {
   IonMenuButton,
   IonTitle,
   IonToolbar,
-  IonListHeader,
   IonCardHeader,
   IonCardContent,
   IonIcon,
@@ -29,15 +28,13 @@ import {
 } from "ionicons/icons";
 
 import axios from "../../utils/axios";
-import { AuthenticationContext } from "../../context";
+import { AuthenticationContext, GeneralContext } from "../../context";
 import { AndroidBackButtonExit } from "../../components";
 import "./Home.css";
 
-/**
- * The About page
- */
 const Home: React.FC = () => {
   const { currentUser } = useContext(AuthenticationContext);
+  const { setShowLoginModal } = useContext(GeneralContext);
   const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
   const [layersCount, setLayersCount] = useState(0);
   const [mapsCount, setMapsCount] = useState(0);
@@ -97,10 +94,29 @@ const Home: React.FC = () => {
         <IonRefresher slot="fixed" onIonRefresh={refreshPage}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
-        <IonListHeader>
-          <img className="home-logo" src="/assets/icon/icon.png" alt="logo" />{" "}
-          <h1>Welcome</h1>
-        </IonListHeader>
+
+        <IonItem lines="none">
+          <h1 slot="start">
+            <IonChip
+              color="danger"
+              outline
+              className="welcome-title ion-no-margin"
+            >
+              Welcome
+            </IonChip>
+          </h1>
+
+          {!currentUser && (
+            <IonChip
+              slot="end"
+              color="primary"
+              onClick={() => setShowLoginModal(true)}
+              className="ion-no-margin"
+            >
+              Login
+            </IonChip>
+          )}
+        </IonItem>
         <IonItem lines="none">
           GeoNode is an open source platform for sharing geospatial data and
           maps.
@@ -112,7 +128,7 @@ const Home: React.FC = () => {
               className="ion-no-padding"
               href="/page/layers"
             >
-              <IonChip slot="start">
+              <IonChip slot="start" color="primary">
                 <IonIcon icon={layersOutline} />
                 <IonLabel>Layers</IonLabel>
               </IonChip>
@@ -126,8 +142,8 @@ const Home: React.FC = () => {
         </IonCard>
         <IonCard>
           <IonCardHeader>
-            <IonItem lines="none" className="ion-no-padding">
-              <IonChip slot="start">
+            <IonItem lines="none" className="ion-no-padding" href="/page/maps">
+              <IonChip slot="start" color="primary">
                 <IonIcon icon={mapOutline} />
                 <IonLabel>Maps</IonLabel>
               </IonChip>
@@ -142,8 +158,12 @@ const Home: React.FC = () => {
         </IonCard>
         <IonCard>
           <IonCardHeader>
-            <IonItem lines="none" className="ion-no-padding">
-              <IonChip slot="start">
+            <IonItem
+              lines="none"
+              className="ion-no-padding"
+              href="/page/documents"
+            >
+              <IonChip slot="start" color="primary">
                 <IonIcon icon={documentTextOutline} />
                 <IonLabel>Documents</IonLabel>
               </IonChip>
@@ -158,7 +178,7 @@ const Home: React.FC = () => {
         <IonCard>
           <IonCardHeader>
             <IonItem lines="none" className="ion-no-padding">
-              <IonChip slot="start">
+              <IonChip slot="start" color="primary">
                 <IonIcon icon={personOutline} />
                 <IonLabel>Users</IonLabel>
               </IonChip>

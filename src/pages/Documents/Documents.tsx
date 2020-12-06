@@ -34,55 +34,55 @@ import axios from "../../utils/axios";
 import { AuthenticationContext } from "../../context";
 import { AndroidBackButtonExit } from "../../components";
 import appConfig from "../../config";
-import "./Layers.css";
+import "./Documents.css";
 
-const Layers: React.FC = () => {
+const Documents: React.FC = () => {
   const { currentUser } = useContext(AuthenticationContext);
   const [showSortPopover, setShowSortPopover] = useState(false);
   const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
-  const [layers, setLayers] = useState([]);
-  const [sortLayersBy, setSortLayersBy] = useState("-date");
+  const [documents, setDocuments] = useState([]);
+  const [sortDocumentsBy, setSortDocumentsBy] = useState("-date");
 
-  const fetchLayers = useCallback(
+  const fetchDocuments = useCallback(
     async (token = null) => {
       setShowLoadingSpinner(true);
       try {
-        const response = await axios.get("/api/layers", {
+        const response = await axios.get("/api/documents", {
           params: {
-            order_by: sortLayersBy,
+            order_by: sortDocumentsBy,
           },
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const tempLayers = response.data.objects.map((singleLayer) => {
+        const tempDocuments = response.data.objects.map((singleDocument) => {
           return {
-            uuid: singleLayer.uuid,
-            title: singleLayer.title,
-            abstract: singleLayer.abstract,
-            thumbnail: singleLayer.thumbnail_url,
-            date: singleLayer.date.split("T")[0],
-            url: singleLayer.detail_url,
-            viewCount: singleLayer.popular_count,
-            ownerName: singleLayer.owner_name,
+            uuid: singleDocument.uuid,
+            title: singleDocument.title,
+            abstract: singleDocument.abstract,
+            thumbnail: singleDocument.thumbnail_url,
+            date: singleDocument.date.split("T")[0],
+            url: singleDocument.detail_url,
+            viewCount: singleDocument.popular_count,
+            ownerName: singleDocument.owner_name,
           };
         });
-        setLayers(tempLayers);
+        setDocuments(tempDocuments);
       } finally {
         setShowLoadingSpinner(false);
       }
     },
-    [sortLayersBy]
+    [sortDocumentsBy]
   );
 
   useEffect(() => {
-    currentUser ? fetchLayers(currentUser.accessToken) : fetchLayers();
-  }, [currentUser, fetchLayers]);
+    currentUser ? fetchDocuments(currentUser.accessToken) : fetchDocuments();
+  }, [currentUser, fetchDocuments]);
 
   const refreshPage = async (event) => {
     currentUser
-      ? await fetchLayers(currentUser.accessToken)
-      : await fetchLayers();
+      ? await fetchDocuments(currentUser.accessToken)
+      : await fetchDocuments();
     event.detail.complete();
   };
 
@@ -94,7 +94,7 @@ const Layers: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Layers</IonTitle>
+          <IonTitle>Documents</IonTitle>
           <IonButtons slot="secondary">
             {showLoadingSpinner && (
               <IonSpinner slot="end" color="light" className="ion-margin-end" />
@@ -112,8 +112,8 @@ const Layers: React.FC = () => {
           onDidDismiss={(e) => setShowSortPopover(false)}
         >
           <IonRadioGroup
-            value={sortLayersBy}
-            onIonChange={(e) => setSortLayersBy(e.detail.value)}
+            value={sortDocumentsBy}
+            onIonChange={(e) => setSortDocumentsBy(e.detail.value)}
           >
             <IonListHeader>
               <IonLabel>Sort by</IonLabel>
@@ -145,33 +145,33 @@ const Layers: React.FC = () => {
         </IonRefresher>
         <IonList>
           <IonListHeader>
-            <h1>{`${layers.length} Layers found`}</h1>
+            <h1>{`${documents.length} Documents found`}</h1>
           </IonListHeader>
-          {layers.map((layer) => (
+          {documents.map((document) => (
             <IonItem
-              key={layer.uuid}
-              href={appConfig.serverBaseURL + layer.url}
+              key={document.uuid}
+              href={appConfig.serverBaseURL + document.url}
               target="_blank"
             >
-              <IonThumbnail slot="start" className="layer-image">
-                <img src={layer.thumbnail} alt="layer" />
+              <IonThumbnail slot="start" className="document-image">
+                <img src={document.thumbnail} alt="document" />
               </IonThumbnail>
               <IonLabel>
-                <h2>{layer.title}</h2>
-                <p>{layer.abstract}</p>
+                <h2>{document.title}</h2>
+                <p>{document.abstract}</p>
                 <p>
                   <IonChip color="primary">
                     <IonIcon icon={personOutline} />
-                    <IonLabel>{layer.ownerName}</IonLabel>
+                    <IonLabel>{document.ownerName}</IonLabel>
                   </IonChip>
                 </p>
                 <IonChip color="primary">
                   <IonIcon icon={calendarOutline} />
-                  <IonLabel>{layer.date}</IonLabel>
+                  <IonLabel>{document.date}</IonLabel>
                 </IonChip>
                 <IonChip color="danger">
                   <IonIcon icon={eyeOutline} />
-                  <IonLabel>{layer.viewCount}</IonLabel>
+                  <IonLabel>{document.viewCount}</IonLabel>
                 </IonChip>
               </IonLabel>
             </IonItem>
@@ -182,4 +182,4 @@ const Layers: React.FC = () => {
   );
 };
 
-export default Layers;
+export default Documents;
