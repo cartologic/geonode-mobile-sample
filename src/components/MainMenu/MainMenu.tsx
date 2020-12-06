@@ -11,7 +11,7 @@ import {
   IonNote,
   IonRow,
   IonRouterLink,
-  IonLoading
+  IonLoading,
 } from "@ionic/react";
 import { useLocation } from "react-router-dom";
 import {
@@ -21,6 +21,8 @@ import {
   logOutSharp,
   settingsOutline,
   settingsSharp,
+  informationCircleOutline,
+  informationCircleSharp,
 } from "ionicons/icons";
 import "./MainMenu.css";
 import packageJson from "../../../package.json";
@@ -46,6 +48,12 @@ const corePages: AppPage[] = [
     iosIcon: settingsOutline,
     mdIcon: settingsSharp,
   },
+  {
+    title: "About",
+    url: "/page/about",
+    iosIcon: informationCircleOutline,
+    mdIcon: informationCircleSharp,
+  },
 ];
 
 /**
@@ -58,7 +66,7 @@ const MainMenu: React.FC = () => {
   const location = useLocation();
 
   const defaultAvatar = "/assets/img/avatar.svg";
-  
+
   const logout = async () => {
     setShowLoading(true);
     await logoutHandler();
@@ -68,7 +76,7 @@ const MainMenu: React.FC = () => {
   return (
     <IonMenu contentId="main-menu" type="overlay">
       <IonContent>
-      <IonLoading isOpen={showLoading} message={"Please wait..."} />
+        <IonLoading isOpen={showLoading} message={"Please wait..."} />
         <IonGrid className="cover-background">
           <IonRow className="ion-justify-content-center ion-margin-top">
             {currentUser ? (
@@ -121,20 +129,20 @@ const MainMenu: React.FC = () => {
             );
           })}
           {currentUser && (
-              <IonItem
-                className="ion-margin-top"
-                lines="none"
-                detail={false}
-                onClick={logout}
-              >
-                <IonIcon
-                  className="ion-padding-start"
-                  slot="start"
-                  ios={logOutOutline}
-                  md={logOutSharp}
-                />
-                <IonLabel>Logout</IonLabel>
-              </IonItem>
+            <IonItem
+              className="ion-margin-top"
+              lines="none"
+              detail={false}
+              onClick={logout}
+            >
+              <IonIcon
+                className="ion-padding-start"
+                slot="start"
+                ios={logOutOutline}
+                md={logOutSharp}
+              />
+              <IonLabel>Logout</IonLabel>
+            </IonItem>
           )}
         </IonList>
       </IonContent>

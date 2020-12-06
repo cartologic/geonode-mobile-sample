@@ -5,10 +5,7 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonItem,
-  IonLabel,
   IonCard,
-  IonThumbnail,
   isPlatform,
   IonButtons,
   IonHeader,
@@ -79,23 +76,6 @@ const Home: React.FC = () => {
         <IonRefresher slot="fixed" onIonRefresh={refreshPage}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-              <IonCard>
-                <IonItem lines="none">
-                  <IonThumbnail slot="start">
-                    <img src="/assets/icon/icon.png" alt="logo" />
-                  </IonThumbnail>
-                  <IonLabel>
-                    <h1>GeoNode Mobile Client</h1> by{" "}
-                    <a href="http://cartologic.com/">Cartologic</a>
-                  </IonLabel>
-                </IonItem>
-              </IonCard>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
         <IonListHeader>
           <h1>Available Layers {`(${layers.length})`}</h1>
         </IonListHeader>
