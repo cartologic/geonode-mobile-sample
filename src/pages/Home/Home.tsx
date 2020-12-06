@@ -20,7 +20,9 @@ import {
   IonCardTitle,
   IonCardSubtitle,
   IonCardContent,
-  IonIcon
+  IonIcon,
+  IonRefresher,
+  IonRefresherContent,
 } from "@ionic/react";
 import { calendarOutline } from "ionicons/icons";
 
@@ -35,10 +37,8 @@ const Home: React.FC = () => {
   const { currentUser } = useContext(AuthenticationContext);
   const [layers, setLayers] = useState([]);
 
-  const fetchLayers = (token = null) => {
-    axios
-      .get("/api/layers")
-      .then((response) => {
+  const fetchLayers = async (token = null) => {
+    const response = await axios.get("/api/layers");
         const tempLayers = response.data.objects.map((singleLayer) => {
           return {
             id: singleLayer.uuid,
@@ -49,12 +49,18 @@ const Home: React.FC = () => {
           };
         });
         setLayers(tempLayers);
-      });
   };
 
   useEffect(() => {
     currentUser ? fetchLayers(currentUser.accessToken) : fetchLayers();
   }, [currentUser]);
+
+  const refreshPage = async (event) => {
+    currentUser
+      ? await fetchLayers(currentUser.accessToken)
+      : await fetchLayers();
+    event.detail.complete();
+  };
 
   return (
     <IonPage>
@@ -68,6 +74,9 @@ const Home: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        <IonRefresher slot="fixed" onIonRefresh={refreshPage}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
         <IonGrid>
           <IonRow>
             <IonCol>
