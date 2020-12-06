@@ -30,6 +30,7 @@ import {
 import axios from "../../utils/axios";
 import { AuthenticationContext, GeneralContext } from "../../context";
 import { AndroidBackButtonExit } from "../../components";
+import "./Home.css";
 
 /**
  * The About page
@@ -90,12 +91,22 @@ const Home: React.FC = () => {
         </IonRefresher>
 
         <IonItem lines="none">
-          <h1 slot="start">Welcome</h1>
+          <h1 slot="start">
+            <IonChip
+              color="danger"
+              outline
+              className="welcome-title ion-no-margin"
+            >
+              Welcome
+            </IonChip>
+          </h1>
+
           {!currentUser && (
             <IonChip
               slot="end"
               color="primary"
               onClick={() => setShowLoginModal(true)}
+              className="ion-no-margin"
             >
               Login
             </IonChip>
