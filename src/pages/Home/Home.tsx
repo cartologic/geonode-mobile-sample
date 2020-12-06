@@ -29,6 +29,7 @@ import { calendarOutline } from "ionicons/icons";
 import axios from "../../utils/axios";
 import { AuthenticationContext } from "../../context";
 import { AndroidBackButtonExit } from "../../components";
+import appConfig from "../../config";
 
 /**
  * The About page
@@ -39,16 +40,17 @@ const Home: React.FC = () => {
 
   const fetchLayers = async (token = null) => {
     const response = await axios.get("/api/layers");
-        const tempLayers = response.data.objects.map((singleLayer) => {
-          return {
-            id: singleLayer.uuid,
-            title: singleLayer.title,
-            abstract: singleLayer.abstract,
-            thumbnail: singleLayer.thumbnail_url,
-            date: singleLayer.date.split("T")[0],
-          };
-        });
-        setLayers(tempLayers);
+    const tempLayers = response.data.objects.map((singleLayer) => {
+      return {
+        id: singleLayer.uuid,
+        title: singleLayer.title,
+        abstract: singleLayer.abstract,
+        thumbnail: singleLayer.thumbnail_url,
+        date: singleLayer.date.split("T")[0],
+        url: singleLayer.detail_url,
+      };
+    });
+    setLayers(tempLayers);
   };
 
   useEffect(() => {
@@ -100,9 +102,15 @@ const Home: React.FC = () => {
         <IonGrid>
           <IonRow>
             {layers.map((layer) => (
-              <IonCol size="6" key={layer.id}>
+              <IonCol size="12" key={layer.id} className="ion-text-center">
                 <IonCard>
-                  <img src={layer.thumbnail} alt="layer" />
+                  <a
+                    href={appConfig.serverBaseURL + layer.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img src={layer.thumbnail} alt="layer" />
+                  </a>
                   <IonCardHeader>
                     <IonCardTitle>{layer.title}</IonCardTitle>
                     <IonCardSubtitle>{layer.abstract}</IonCardSubtitle>
