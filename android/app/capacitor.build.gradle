@@ -12,7 +12,7 @@ dependencies {
 
 
 }
-apply from: "../../node_modules/phonegap-plugin-multidex/multidex.gradle"
+
 
 if (hasProperty('postBuildExtras')) {
   postBuildExtras()
