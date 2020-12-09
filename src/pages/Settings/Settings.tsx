@@ -13,6 +13,7 @@ import {
   IonListHeader,
   IonItemDivider,
   isPlatform,
+  IonInput,
 } from "@ionic/react";
 import { moon } from "ionicons/icons";
 
@@ -21,7 +22,13 @@ import { GeneralContext } from "../../context";
 import { PageHeader, AndroidBackButtonExit } from "../../components";
 
 const Settings: React.FC = () => {
-  const { settings, setDarkMode } = useContext(GeneralContext);
+  const {
+    settings,
+    setDarkMode,
+    setGeonodeUrl,
+    setClientId,
+    setClientSecret,
+  } = useContext(GeneralContext);
 
   const darkModeHandler = (event: CustomEvent) => {
     setDarkMode(event.detail.checked);
@@ -60,6 +67,32 @@ const Settings: React.FC = () => {
             />
           </IonItem>
           <IonItemDivider />
+        </IonList>
+        <IonList>
+          <IonListHeader>
+            <IonLabel>Authentication</IonLabel>
+          </IonListHeader>
+          <IonItem lines="inset">
+            <IonInput
+              value={settings.geonodeUrl}
+              onIonChange={(e) => setGeonodeUrl(e.detail.value!)}
+              placeholder="GeoNode URL"
+            ></IonInput>
+          </IonItem>
+          <IonItem lines="inset">
+            <IonInput
+              value={settings.clientId}
+              onIonChange={(e) => setClientId(e.detail.value!)}
+              placeholder="Client ID"
+            ></IonInput>
+          </IonItem>
+          <IonItem lines="inset">
+            <IonInput
+              value={settings.clientSecret}
+              onIonChange={(e) => setClientSecret(e.detail.value!)}
+              placeholder="Client Secret"
+            ></IonInput>
+          </IonItem>
         </IonList>
       </IonContent>
     </IonPage>

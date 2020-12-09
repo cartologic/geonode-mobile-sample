@@ -41,6 +41,26 @@ const GeneralContextProvider: React.FC = (props) => {
     });
   };
 
+  const setGeonodeUrl = (geonodeUrl: string = "") => {
+    const updatedSettings = { geonodeUrl };
+    setSettings((currentSettings) => {
+      return { ...currentSettings, ...updatedSettings };
+    });
+  };
+
+  const setClientId = (clientId: string = "") => {
+    const updatedSettings = { clientId };
+    setSettings((currentSettings) => {
+      return { ...currentSettings, ...updatedSettings };
+    });
+  };
+
+  const setClientSecret = (clientSecret: string = "") => {
+    const updatedSettings = { clientSecret };
+    setSettings((currentSettings) => {
+      return { ...currentSettings, ...updatedSettings };
+    });
+  };
   return (
     <GeneralContext.Provider
       value={{
@@ -50,6 +70,9 @@ const GeneralContextProvider: React.FC = (props) => {
         setDarkMode,
         setShowWelcomeScreen,
         setShowLoginModal,
+        setGeonodeUrl,
+        setClientId,
+        setClientSecret,
       }}
     >
       {props.children}

@@ -1,10 +1,11 @@
 import React from "react";
 
-import appConfig from "../../config";
-
 export interface Settings {
   darkMode: boolean;
   showWelcomeScreen: boolean;
+  geonodeUrl: string;
+  clientId: string;
+  clientSecret: string;
 }
 
 interface Context {
@@ -14,11 +15,17 @@ interface Context {
   setDarkMode: (darkMode: boolean) => void;
   setShowWelcomeScreen: (showWelcomeScreen: boolean) => void;
   setShowLoginModal: (showLoginModal: boolean) => void;
+  setGeonodeUrl: (geonodeUrl: string) => void;
+  setClientId: (clientId: string) => void;
+  setClientSecret: (clientSecret: string) => void;
 }
 
 export const defaultSettings: Settings = {
-  darkMode: appConfig.defaultDarkMode,
+  darkMode: false,
   showWelcomeScreen: true,
+  geonodeUrl: "",
+  clientId: "",
+  clientSecret: "",
 };
 
 const GeneralContext = React.createContext<Context>({
@@ -28,6 +35,9 @@ const GeneralContext = React.createContext<Context>({
   setDarkMode: () => {},
   setShowWelcomeScreen: () => {},
   setShowLoginModal: () => {},
+  setGeonodeUrl: () => {},
+  setClientId: () => {},
+  setClientSecret: () => {},
 });
 
 export default GeneralContext;

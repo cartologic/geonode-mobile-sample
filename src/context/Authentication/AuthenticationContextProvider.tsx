@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import qs from "querystring";
 import { Plugins } from "@capacitor/core";
 
 import axios from "../../utils/axios";
 import AuthenticationContext, { SystemUser } from "./AuthenticationContext";
-import appConfig from "../../config";
+import { GeneralContext } from "../";
 
 const { Storage } = Plugins;
 const AuthenticationContextProvider: React.FC = (props) => {
+  const { settings } = useContext(GeneralContext);
   const [currentUser, setCurrentUser] = useState<SystemUser | null>(null);
 
   // Save to disk whenever there is a change
@@ -30,21 +31,21 @@ const AuthenticationContextProvider: React.FC = (props) => {
   const loginHandler = async (username: string, password: string) => {
     // Prepare authentication request
     const authenticationRequestBody = {
-      client_id: appConfig.authenticationClientId,
-      client_secret: appConfig.authenticationClientSecret,
-      grant_type: appConfig.authenticationType,
+      client_id: settings.clientId,
+      client_secret: settings.clientSecret,
+      grant_type: "password",
       username: username,
       password: password,
     };
     try {
       // Authenticate from GeoNode backend
       const authenticationResponse = await axios.post(
-        appConfig.authenticationURL,
+        "o/token/",
         qs.stringify(authenticationRequestBody),
-        {headers: { "Content-Type": "application/x-www-form-urlencoded" }}
+        { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
       // Load profile details from GeoNode profile API endpoint
-      const profileResponse = await axios.get(appConfig.profileURL, {
+      const profileResponse = await axios.get("api/profiles/", {
         params: { username },
       });
       const requestedProfile = profileResponse.data.objects[0];
@@ -70,16 +71,14 @@ const AuthenticationContextProvider: React.FC = (props) => {
 
   const logoutHandler = async () => {
     const logoutRequestBody = {
-      client_id: appConfig.authenticationClientId,
-      client_secret: appConfig.authenticationClientSecret,
+      client_id: settings.clientId,
+      client_secret: settings.clientSecret,
       token: currentUser?.accessToken,
     };
     try {
-      await axios.post(
-        appConfig.logoutURL,
-        qs.stringify(logoutRequestBody),
-        {headers: { "Content-Type": "application/x-www-form-urlencoded" }}
-      );
+      await axios.post("o/revoke_token/", qs.stringify(logoutRequestBody), {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      });
       setCurrentUser(null);
       return true;
     } catch (error) {
