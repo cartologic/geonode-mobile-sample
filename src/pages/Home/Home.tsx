@@ -19,6 +19,7 @@ import {
   IonChip,
   IonBadge,
   IonSpinner,
+  IonAvatar,
 } from "@ionic/react";
 import {
   layersOutline,
@@ -87,25 +88,28 @@ const Home: React.FC = () => {
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
 
-        <IonItem lines="none">
-          <h1 slot="start">
-            <IonChip
-              color="danger"
-              outline
-              className="welcome-title ion-no-margin"
-            >
-              Welcome
-            </IonChip>
-          </h1>
+        <IonItem lines="none" className="ion-margin-top">
+          <IonChip
+            slot="start"
+            color="danger"
+            outline
+            className="welcome-title ion-no-margin"
+          >
+            <IonAvatar>
+              <img src="/assets/icon/icon.png" alt="logo" />
+            </IonAvatar>
+            <IonLabel>Welcome</IonLabel>
+          </IonChip>
 
           {!currentUser && (
             <IonChip
               slot="end"
-              color="primary"
+              color="danger"
               onClick={() => setShowLoginModal(true)}
               className="ion-no-margin"
             >
-              Login
+              <IonIcon icon={personOutline} />
+              <IonLabel>Login</IonLabel>
             </IonChip>
           )}
         </IonItem>
